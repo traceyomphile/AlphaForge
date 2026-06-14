@@ -1,62 +1,45 @@
-from pathlib import Path
+"""
+config.py
+---------
+Central configuration for the AI Forex Trading Research System - Version 1.
+All paths, hyperparameters, and constants live here.
+"""
 
-# Root project directory
-BASE_DIR = Path(__file__).resolve().parents[1]
+import os
 
-# Data paths
-RAW_DATA_PATH = BASE_DIR / "data" / "raw" / "EURUSD_DAILY.csv"
-PROCESSED_DATA_PATH = BASE_DIR / "data" / "processed" / "EURUSD_features.csv"
+# ── Project root 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Output paths
-MODELS_DIR = BASE_DIR / "models_saved"
-REPORTS_DIR = BASE_DIR / "reports"
+# ── Data paths 
+RAW_DATA_PATH       = os.path.join(BASE_DIR, "data", "raw",       "EURUSD_DAILY.csv")
+PROCESSED_FEATURES  = os.path.join(BASE_DIR, "data", "processed", "EURUSD_features.csv")
+PROCESSED_PREDS     = os.path.join(BASE_DIR, "data", "processed", "EURUSD_predictions.csv")
 
-BEST_MODEL_PATH = MODELS_DIR / "best_model.pkl"
-SCALER_PATH = MODELS_DIR / "scaler.pkl"
+# ── Model / scaler paths 
+MODEL_PATH  = os.path.join(BASE_DIR, "models_saved", "best_model.pkl")
+SCALER_PATH = os.path.join(BASE_DIR, "models_saved", "scaler.pkl")
 
-MODEL_REPORT_PATH = REPORTS_DIR / "model_report.txt"
-BACKTEST_REPORT_PATH = REPORTS_DIR / "backtest_report.txt"
-EQUITY_CURVE_PATH = REPORTS_DIR / "equity_curve.png"
+# ── Report paths 
+MODEL_REPORT_PATH   = os.path.join(BASE_DIR, "reports", "model_report.txt")
+BACKTEST_REPORT_PATH= os.path.join(BASE_DIR, "reports", "backtest_report.txt")
+EQUITY_CURVE_PATH   = os.path.join(BASE_DIR, "reports", "equity_curve.png")
 
-# Labeling
-THRESHOLD = 0.001  # 0.1%
+# ── Labeling 
+LABEL_THRESHOLD = 0.001   # 0.1% move → BUY or SELL; else HOLD
+LABEL_MAP = {"BUY": 1, "HOLD": 0, "SELL": -1}
+LABEL_NAMES = {1: "BUY", 0: "HOLD", -1: "SELL"}
 
-BUY_LABEL = 1
-HOLD_LABEL = 0
-SELL_LABEL = -1
+# ── Train / val / test split ratios 
+TRAIN_RATIO = 0.70
+VAL_RATIO   = 0.15
+# TEST_RATIO  = remaining 0.15 (implicit)
 
-LABEL_NAMES = {
-    SELL_LABEL: "SELL",
-    HOLD_LABEL: "HOLD",
-    BUY_LABEL: "BUY",
-}
+# ── Backtesting 
+TRANSACTION_COST = 0.0001   # ~1 pip spread estimate
 
-# Backtest
-TRANSACTION_COST = 0.0001
+# ── Random seed 
+RANDOM_SEED = 42
 
-# Time-series split
-TRAIN_SIZE = 0.70
-VALIDATION_SIZE = 0.15
-TEST_SIZE = 0.15
-
-# Reproducibility
-RANDOM_STATE = 42
-
-# Features used by the model
-FEATURE_COLUMNS = [
-    "daily_return",
-    "return_3d",
-    "return_5d",
-    "return_10d",
-    "volatility_5d",
-    "volatility_10d",
-    "ma_5",
-    "ma_10",
-    "ma_20",
-    "close_minus_ma_5",
-    "close_minus_ma_10",
-    "close_minus_ma_20",
-    "high_low_range",
-    "close_open_range",
-    "rsi_14",
-]
+# ── Trading pair / timeframe (for display) 
+PAIR      = "EUR/USD"
+TIMEFRAME = "Daily"
