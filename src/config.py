@@ -43,3 +43,11 @@ RANDOM_SEED = 42
 # ── Trading pair / timeframe (for display) 
 PAIR      = "EUR/USD"
 TIMEFRAME = "Daily"
+
+YAHOO_TICKER = "EURUSD=X"
+
+AUTO_DOWNLOAD_DATA = True
+FORCE_DOWNLOAD_DATA = False
+
+DOWNLOAD_START_DATE = "2003-01-01"
+DOWNLOAD_END_DATE = None
