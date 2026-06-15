@@ -9,7 +9,7 @@ import pandas as pd
 from src.config import RAW_DATA_PATH
 
 
-def load_raw_data(filepath: str = RAW_DATA_PATH) -> pd.DataFrame:
+def load_price_data(filepath: str = str(RAW_DATA_PATH)) -> pd.DataFrame:
     """
     Load the raw OHLC CSV and return a clean, sorted DataFrame.
 
