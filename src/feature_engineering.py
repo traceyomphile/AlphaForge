@@ -22,7 +22,7 @@ def compute_rsi(series: pd.Series, period: int = 14) -> pd.Series:
     return rsi
 
 
-def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
+def create_features(df: pd.DataFrame) -> pd.DataFrame:
     """
     Add technical / price-based features to the DataFrame.
 
