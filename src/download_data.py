@@ -2,8 +2,11 @@ from pathlib import Path
 
 import pandas as pd
 import yfinance as yf
+import requests_cache 
+import requests
 
-from config import (
+
+from src.config import (
     DOWNLOAD_END_DATE,
     DOWNLOAD_START_DATE,
     RAW_DATA_PATH,
@@ -108,7 +111,33 @@ def download_eurusd_daily_data(
     print(f"End date: {end_date if end_date else 'latest available'}")
     print("")
 
+    # Provide a custom session with standard browser headers
+    session = requests.Session()
+    session.headers.update({
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/91.0.4472.124 Safari/537.36"
+        )
+    })
+    requests_cache.install_cache(
+        "yahoo_cache",
+        backend="sqlite",
+        expire_after=3600,  # Cache expires after 1 hour
+        session=session,
+    )
+
+    df = None
+
     try:
+        eurusd = yf.Ticker(YAHOO_TICKER)
+        df = eurusd.history(
+            start=start_date,
+            end=end_date,
+            interval="1d",
+            auto_adjust=False
+        )
+        """
         df = yf.download(
             tickers=YAHOO_TICKER,
             start=start_date,
@@ -119,15 +148,20 @@ def download_eurusd_daily_data(
             threads=False,
             multi_level_index=False,
         )
+        """
     except Exception as exc:
         raise RuntimeError(
             "Failed to download EUR/USD data from Yahoo Finance. "
             "Check your internet connection and yfinance installation."
         ) from exc
 
-    clean_df = clean_yahoo_data(df)
+    if df is None or df.empty:
+        raise RuntimeError("Failed to clean downloaded EUR/USD data.")
+
+    clean_df = clean_yahoo_data(df) 
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
+
     clean_df.to_csv(output_path, index=False)
 
     print("Download complete.")

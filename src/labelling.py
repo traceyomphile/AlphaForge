@@ -1,6 +1,6 @@
 import pandas as pd
 
-from config import DEFAULT_LABEL_THRESHOLD, LABEL_BUY, LABEL_HOLD, LABEL_SELL
+from src.config import DEFAULT_LABEL_THRESHOLD, LABEL_BUY, LABEL_HOLD, LABEL_SELL
 
 
 def create_labels(
