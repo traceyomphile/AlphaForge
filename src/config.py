@@ -5,34 +5,74 @@ Central configuration for the AI Forex Trading Research System - Version 1.
 All paths, hyperparameters, and constants live here.
 """
 
-import os
+from pathlib import Path
 
-# ── Project root 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
-# ── Data paths 
-RAW_DATA_PATH       = os.path.join(BASE_DIR, "data", "raw",       "EURUSD_DAILY.csv")
-PROCESSED_FEATURES  = os.path.join(BASE_DIR, "data", "processed", "EURUSD_features.csv")
-PROCESSED_PREDS     = os.path.join(BASE_DIR, "data", "processed", "EURUSD_predictions.csv")
+DATA_RAW_DIR = PROJECT_ROOT / "data" / "raw"
+DATA_PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
+MODELS_DIR = PROJECT_ROOT / "models_saved"
+REPORTS_DIR = PROJECT_ROOT / "reports"
 
-# ── Model / scaler paths 
-MODEL_PATH  = os.path.join(BASE_DIR, "models_saved", "best_model.pkl")
-SCALER_PATH = os.path.join(BASE_DIR, "models_saved", "scaler.pkl")
+RAW_DATA_PATH = DATA_RAW_DIR / "EURUSD_DAILY.csv"
+FEATURES_PATH = DATA_PROCESSED_DIR / "EURUSD_features.csv"
+PREDICTIONS_PATH = DATA_PROCESSED_DIR / "EURUSD_predictions.csv"
 
-# ── Report paths 
-MODEL_REPORT_PATH   = os.path.join(BASE_DIR, "reports", "model_report.txt")
-BACKTEST_REPORT_PATH= os.path.join(BASE_DIR, "reports", "backtest_report.txt")
-EQUITY_CURVE_PATH   = os.path.join(BASE_DIR, "reports", "equity_curve.png")
+MODEL_REPORT_PATH = REPORTS_DIR / "model_report.txt"
+BACKTEST_REPORT_PATH = REPORTS_DIR / "backtest_report.txt"
+EQUITY_CURVE_PATH = REPORTS_DIR / "equity_curve.png"
 
-# ── Labeling 
-LABEL_THRESHOLD = 0.001   # 0.1% move → BUY or SELL; else HOLD
-LABEL_MAP = {"BUY": 1, "HOLD": 0, "SELL": -1}
-LABEL_NAMES = {1: "BUY", 0: "HOLD", -1: "SELL"}
+BEST_MODEL_PATH = MODELS_DIR / "best_model.pkl"
+SCALER_PATH = MODELS_DIR / "scaler.pkl"
 
-# ── Train / val / test split ratios 
-TRAIN_RATIO = 0.70
-VAL_RATIO   = 0.15
+PAIR = "EUR/USD"
+TIMEFRAME = "Daily"
+
+LABEL_BUY = 1
+LABEL_HOLD = 0
+LABEL_SELL = -1
+
+LABEL_TO_SIGNAL = {
+    LABEL_BUY: "BUY",
+    LABEL_HOLD: "HOLD",
+    LABEL_SELL: "SELL",
+}
+
+SIGNAL_TO_LABEL = {
+    "BUY": LABEL_BUY,
+    "HOLD": LABEL_HOLD,
+    "SELL": LABEL_SELL,
+}
+
+LABEL_ORDER = [LABEL_SELL, LABEL_HOLD, LABEL_BUY]
+LABEL_NAMES = ["SELL", "HOLD", "BUY"]
+
+DEFAULT_LABEL_THRESHOLD = 0.001
+DEFAULT_TRANSACTION_COST = 0.0001
+
+TRAIN_SIZE = 0.70
+VAL_SIZE = 0.15
 # TEST_RATIO  = remaining 0.15 (implicit)
+
+RANDOM_STATE = 42
+
+FEATURE_COLUMNS = [
+    "daily_return",
+    "return_3d",
+    "return_5d",
+    "return_10d",
+    "volatility_5d",
+    "volatility_10d",
+    "ma5",
+    "ma10",
+    "ma20",
+    "close_minus_ma5",
+    "close_minus_ma10",
+    "close_minus_ma20",
+    "high_low_range",
+    "close_open_range",
+    "rsi_14",
+]
 
 # ── Backtesting 
 TRANSACTION_COST = 0.0001   # ~1 pip spread estimate
@@ -51,3 +91,9 @@ FORCE_DOWNLOAD_DATA = False
 
 DOWNLOAD_START_DATE = "2003-01-01"
 DOWNLOAD_END_DATE = None
+
+def ensure_directories() -> None:
+    DATA_RAW_DIR.mkdir(parents=True, exist_ok=True)
+    DATA_PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+    MODELS_DIR.mkdir(parents=True, exist_ok=True)
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
