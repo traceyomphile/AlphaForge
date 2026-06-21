@@ -18,9 +18,9 @@ RAW_DATA_PATH = DATA_RAW_DIR / "EURUSD_DAILY.csv"
 FEATURES_PATH = DATA_PROCESSED_DIR / "EURUSD_features.csv"
 PREDICTIONS_PATH = DATA_PROCESSED_DIR / "EURUSD_predictions.csv"
 
-MODEL_REPORT_PATH = REPORTS_DIR / "model_report.txt"
-BACKTEST_REPORT_PATH = REPORTS_DIR / "backtest_report.txt"
-EQUITY_CURVE_PATH = REPORTS_DIR / "equity_curve.png"
+MODEL_REPORT_PATH = REPORTS_DIR / "v1_model_report.txt"
+BACKTEST_REPORT_PATH = REPORTS_DIR / "v1_backtest_report.txt"
+EQUITY_CURVE_PATH = REPORTS_DIR / "v1_equity_curve.png"
 
 BEST_MODEL_PATH = MODELS_DIR / "best_model.pkl"
 SCALER_PATH = MODELS_DIR / "scaler.pkl"
