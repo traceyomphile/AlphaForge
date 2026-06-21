@@ -79,7 +79,7 @@ def train_baseline_models(X_train_scaled, y_train):
             "The model cannot learn a classification problem from one class."
         )
 
-    models = {
+    models: dict[str, LogisticRegression | RandomForestClassifier] = {
         "Logistic Regression": LogisticRegression(
             max_iter=1000,
             class_weight="balanced",
@@ -95,7 +95,7 @@ def train_baseline_models(X_train_scaled, y_train):
         ),
     }
 
-    trained_models = {}
+    trained_models: dict[str, LogisticRegression | RandomForestClassifier] = {}
 
     for name, model in models.items():
         model.fit(X_train_scaled, y_train)

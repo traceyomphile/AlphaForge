@@ -10,9 +10,9 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 FEATURES_PATH = PROJECT_ROOT / "data" / "processed" / "EURUSD_features.csv"
 PREDICTIONS_PATH = PROJECT_ROOT / "data" / "processed" / "EURUSD_predictions.csv"
-MODEL_REPORT_PATH = PROJECT_ROOT / "reports" / "model_report.txt"
-BACKTEST_REPORT_PATH = PROJECT_ROOT / "reports" / "backtest_report.txt"
-EQUITY_CURVE_PATH = PROJECT_ROOT / "reports" / "equity_curve.png"
+MODEL_REPORT_PATH = PROJECT_ROOT / "reports" / "v1_model_report.txt"
+BACKTEST_REPORT_PATH = PROJECT_ROOT / "reports" / "v1_backtest_report.txt"
+EQUITY_CURVE_PATH = PROJECT_ROOT / "reports" / "v1_equity_curve.png"
 MAIN_SCRIPT_PATH = PROJECT_ROOT / "src" / "main.py"
 
 

@@ -113,6 +113,8 @@ def main():
     test_results = evaluate_models(models, X_test_scaled, y_test)
 
     best_model_name = select_best_model(validation_results)
+    if best_model_name is None:
+        raise ValueError("No best model could be selected from validation results")
     best_model = models[best_model_name]
 
     print(f"Best model selected: {best_model_name}")
